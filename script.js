@@ -1,8 +1,6 @@
-// Global variables
 let tasks = [];
 let taskId = 1;
 
-// DOM elements
 const taskInput = document.getElementById('taskInput');
 const addBtn = document.getElementById('addBtn');
 const taskList = document.getElementById('taskList');
@@ -11,7 +9,6 @@ const totalTasks = document.getElementById('totalTasks');
 const completedTasks = document.getElementById('completedTasks');
 const pendingTasks = document.getElementById('pendingTasks');
 
-// Event listeners
 addBtn.addEventListener('click', addTask);
 taskInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
@@ -19,14 +16,12 @@ taskInput.addEventListener('keypress', function(e) {
     }
 });
 
-// Load tasks from localStorage on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadTasks();
     updateStats();
     updateEmptyState();
 });
 
-// Add new task
 function addTask() {
     const taskText = taskInput.value.trim();
     
@@ -52,7 +47,6 @@ function addTask() {
     updateStats();
     updateEmptyState();
     
-    // Clear input and add success feedback
     taskInput.value = '';
     taskInput.style.background = 'rgba(76, 175, 80, 0.1)';
     setTimeout(() => {
@@ -60,7 +54,6 @@ function addTask() {
     }, 300);
 }
 
-// Render all tasks
 function renderTasks() {
     taskList.innerHTML = '';
     
@@ -70,7 +63,6 @@ function renderTasks() {
     });
 }
 
-// Create task element
 function createTaskElement(task) {
     const taskItem = document.createElement('div');
     taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
@@ -89,7 +81,6 @@ function createTaskElement(task) {
     return taskItem;
 }
 
-// Toggle task completion
 function toggleTask(id) {
     const task = tasks.find(t => t.id === id);
     if (task) {
@@ -98,14 +89,12 @@ function toggleTask(id) {
         renderTasks();
         updateStats();
         
-        // Add completion celebration effect
         if (task.completed) {
             showCompletionEffect();
         }
     }
 }
 
-// Edit task
 function editTask(id) {
     const task = tasks.find(t => t.id === id);
     if (!task) return;
@@ -116,7 +105,6 @@ function editTask(id) {
     const editBtn = taskElement.querySelector('.edit-btn');
     const deleteBtn = taskElement.querySelector('.delete-btn');
     
-    // Switch to edit mode
     taskText.classList.add('hidden');
     editInput.classList.remove('hidden');
     editBtn.classList.add('hidden');
@@ -126,11 +114,9 @@ function editTask(id) {
     editInput.focus();
     editInput.select();
     
-    // Add editing class for styling
     taskElement.classList.add('editing');
 }
 
-// Save edit
 function saveEdit(id) {
     const task = tasks.find(t => t.id === id);
     if (!task) return;
@@ -148,33 +134,28 @@ function saveEdit(id) {
         taskText.textContent = newText;
         saveTasks();
         
-        // Add success animation
         taskElement.style.background = 'rgba(76, 175, 80, 0.1)';
         setTimeout(() => {
             taskElement.style.background = '';
         }, 500);
     }
     
-    // Switch back to view mode
     taskText.classList.remove('hidden');
     editInput.classList.add('hidden');
     editBtn.classList.remove('hidden');
     deleteBtn.classList.remove('hidden');
     
-    // Remove editing class
     taskElement.classList.remove('editing');
 }
 
-// Handle edit keypress
 function handleEditKeypress(event, id) {
     if (event.key === 'Enter') {
-        event.target.blur(); // This will trigger saveEdit
+        event.target.blur(); 
     } else if (event.key === 'Escape') {
         cancelEdit(id);
     }
 }
 
-// Cancel edit
 function cancelEdit(id) {
     const taskElement = document.querySelector(`[onblur="saveEdit(${id})"]`).parentElement;
     const taskText = taskElement.querySelector('.task-text');
@@ -182,19 +163,16 @@ function cancelEdit(id) {
     const editBtn = taskElement.querySelector('.edit-btn');
     const deleteBtn = taskElement.querySelector('.delete-btn');
     
-    // Switch back to view mode without saving
     taskText.classList.remove('hidden');
     editInput.classList.add('hidden');
     editBtn.classList.remove('hidden');
     deleteBtn.classList.remove('hidden');
     
-    // Remove editing class
     taskElement.classList.remove('editing');
 }
 function deleteTask(id) {
     const taskIndex = tasks.findIndex(t => t.id === id);
     if (taskIndex > -1) {
-        // Add slide-out animation before removing
         const taskElement = document.querySelector(`[onclick="deleteTask(${id})"]`).parentElement;
         taskElement.style.animation = 'slideOutRight 0.3s ease-out';
         
@@ -208,19 +186,16 @@ function deleteTask(id) {
     }
 }
 
-// Update statistics
 function updateStats() {
     const total = tasks.length;
     const completed = tasks.filter(t => t.completed).length;
     const pending = total - completed;
     
-    // Animate number changes
     animateNumber(totalTasks, total);
     animateNumber(completedTasks, completed);
     animateNumber(pendingTasks, pending);
 }
 
-// Animate number changes
 function animateNumber(element, newValue) {
     const currentValue = parseInt(element.textContent) || 0;
     if (currentValue !== newValue) {
@@ -235,7 +210,6 @@ function animateNumber(element, newValue) {
     }
 }
 
-// Update empty state visibility
 function updateEmptyState() {
     if (tasks.length === 0) {
         emptyState.classList.remove('hidden');
@@ -246,7 +220,6 @@ function updateEmptyState() {
     }
 }
 
-// Show completion effect
 function showCompletionEffect() {
     const effect = document.createElement('div');
     effect.innerHTML = '🎉';
@@ -268,7 +241,6 @@ function showCompletionEffect() {
     }, 1000);
 }
 
-// Save tasks to localStorage
 function saveTasks() {
     try {
         // In artifact environment, we'll use a simple variable instead
@@ -278,15 +250,8 @@ function saveTasks() {
     }
 }
 
-// Load tasks from localStorage
 function loadTasks() {
     try {
-        // In artifact environment, we'll start with empty tasks
-        // const savedTasks = localStorage.getItem('listly-tasks');
-        // if (savedTasks) {
-        //     tasks = JSON.parse(savedTasks);
-        //     taskId = Math.max(...tasks.map(t => t.id), 0) + 1;
-        // }
         renderTasks();
     } catch (error) {
         console.log('Storage not available in this environment');
