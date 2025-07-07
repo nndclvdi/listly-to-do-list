@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listly To-Do App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="stars">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+    
+    <div class="shooting-star"></div>
+    
+    <div class="landscape">
+        <div class="mountain-back"></div>
+        <div class="mountain-front"></div>
+        <div class="trees">
+            <div class="tree"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
+            <div class="tree"></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="app-card">
+            <h1 class="app-title">Listly To-Do App</h1>
+            
+            <div class="input-section">
+                <input type="text" id="taskInput" placeholder="Tambahkan tugas baru..." maxlength="100">
+                <button id="addBtn" class="add-btn">+</button>
+            </div>
+            
+            <div class="task-stats">
+                <div class="stat">
+                    <span class="stat-number" id="totalTasks">0</span>
+                    <span class="stat-label">Total</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="completedTasks">0</span>
+                    <span class="stat-label">Selesai</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="pendingTasks">0</span>
+                    <span class="stat-label">Tersisa</span>
+                </div>
+            </div>
+            
+            <div class="task-list" id="taskList">
+                <!-- Tasks will be added here dynamically -->
+            </div>
+            
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">📝</div>
+                <p>Belum ada tugas yang ditambahkan</p>
+                <small>Tambahkan tugas pertama Anda di atas!</small>
+                <ul><small>n &mdash; 2025</small> </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
